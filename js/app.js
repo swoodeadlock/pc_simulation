@@ -266,35 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update feedback content with selected option feedback
         feedbackContent.innerHTML = `<p>${selectedOption.feedback}</p>`;
         
-        // Enable continue button
-        const continueBtn = feedbackContainer.querySelector('.continue-btn');
-        continueBtn.addEventListener('click', () => {
-            // Check if there's a final follow-up
-            if (scenarios[currentScenario].finalFollowUp) {
-                // Handle final follow-up
-                if (scenarios[currentScenario].finalFollowUp.type === 'decision') {
-                    handleFollowUpDecision(scenarios[currentScenario].finalFollowUp);
-                } else if (scenarios[currentScenario].finalFollowUp.type === 'multipleSelect') {
-                    handleFollowUpMultipleSelect(scenarios[currentScenario].finalFollowUp);
-                } else if (scenarios[currentScenario].finalFollowUp.type === 'sequence') {
-                    handleFollowUpSequence(scenarios[currentScenario].finalFollowUp);
-                } else if (scenarios[currentScenario].finalFollowUp.type === 'form') {
-                    handleFollowUpForm(scenarios[currentScenario].finalFollowUp);
-                }
-            } else {
-                // Move to next scenario
-                currentScenario++;
-                if (currentScenario < scenarios.length) {
-                    loadScenario(scenarios[currentScenario]);
-                } else {
-                    showResults();
-                }
-            }
-        });
-        
-        // Display feedback and response content if available
-        feedbackContent.innerHTML = `<p>${selectedOption.feedback}</p>`;
-        
+        // Display additional response content if available
         if (selectedOption.responseContent) {
             const responseElement = document.createElement('div');
             responseElement.className = 'response-content mt-1';
@@ -338,16 +310,13 @@ document.addEventListener('DOMContentLoaded', () => {
             feedbackContent.appendChild(responseElement);
         }
         
-        // Display continue button
-        continueBtn = feedbackContainer.querySelector('.continue-btn');
+        // Combined continue button event listener to avoid duplicate declarations
+        const continueBtn = feedbackContainer.querySelector('.continue-btn');
         continueBtn.addEventListener('click', () => {
             // Prevent multiple clicks
             continueBtn.disabled = true;
             
-            // Check if this scenario has a follow-up, and whether the selected option meets the condition
-            if (scenario.followUp && (!scenario.followUp.condition || 
-                scenario.followUp.condition.includes(selectedOption.id))) {
-                
+            if (scenario.followUp && (!scenario.followUp.condition || scenario.followUp.condition.includes(selectedOption.id))) {
                 // Handle follow-up based on type
                 if (scenario.followUp.type === 'decision') {
                     handleFollowUpDecision(scenario.followUp);
@@ -379,6 +348,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
+        
+        // Show feedback container
+        feedbackContainer.classList.remove('hidden');
+        
+        // Hide submit button
+        document.querySelector('.submit-btn').remove();
     }
     
     // Handle follow-up for multiple select
@@ -746,7 +721,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         // Enable continue button
-        continueBtn = feedbackContainer.querySelector('.continue-btn');
+        const continueBtn = feedbackContainer.querySelector('.continue-btn');
         continueBtn.addEventListener('click', () => {
             // Move to next scenario
             currentScenario++;
@@ -947,44 +922,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
         finalResults.innerHTML = resultsHTML;
     }
-});up based on type
-                if (scenario.followUp.type === 'decision') {
-                    handleFollowUpDecision(scenario.followUp);
-                } else if (scenario.followUp.type === 'multipleSelect') {
-                    handleFollowUpMultipleSelect(scenario.followUp);
-                } else if (scenario.followUp.type === 'sequence') {
-                    handleFollowUpSequence(scenario.followUp);
-                } else if (scenario.followUp.type === 'form') {
-                    handleFollowUpForm(scenario.followUp);
-                }
-            } else if (scenario.finalFollowUp) {
-                // Handle final follow-up
-                if (scenario.finalFollowUp.type === 'decision') {
-                    handleFollowUpDecision(scenario.finalFollowUp);
-                } else if (scenario.finalFollowUp.type === 'multipleSelect') {
-                    handleFollowUpMultipleSelect(scenario.finalFollowUp);
-                } else if (scenario.finalFollowUp.type === 'sequence') {
-                    handleFollowUpSequence(scenario.finalFollowUp);
-                } else if (scenario.finalFollowUp.type === 'form') {
-                    handleFollowUpForm(scenario.finalFollowUp);
-                }
-            } else {
-                // Move to next scenario
-                currentScenario++;
-                if (currentScenario < scenarios.length) {
-                    loadScenario(scenarios[currentScenario]);
-                } else {
-                    showResults();
-                }
-            }
-        });
-        
-        // Show feedback container
-        feedbackContainer.classList.remove('hidden');
-        
-        // Hide submit button
-        document.querySelector('.submit-btn').remove();
-    }
     
     // Handle a follow-up decision
     function handleFollowUpDecision(followUp) {
@@ -1061,3 +998,51 @@ document.addEventListener('DOMContentLoaded', () => {
             if (option.isCorrect) {
                 optionElement.classList.add('correct');
             } else if (optionElement.classList.contains('selected') && !option.isCorrect) {
+                optionElement.classList.add('incorrect');
+            }
+        });
+        
+        // Combined event listener for continue button for follow-up decision
+        const continueBtn = feedbackContainer.querySelector('.continue-btn');
+        continueBtn.addEventListener('click', () => {
+            // Prevent multiple clicks
+            continueBtn.disabled = true;
+            
+            if (followUp.followUp && (!followUp.followUp.condition || followUp.followUp.condition.includes(selectedOption.id))) {
+                if (followUp.followUp.type === 'decision') {
+                    handleFollowUpDecision(followUp.followUp);
+                } else if (followUp.followUp.type === 'multipleSelect') {
+                    handleFollowUpMultipleSelect(followUp.followUp);
+                } else if (followUp.followUp.type === 'sequence') {
+                    handleFollowUpSequence(followUp.followUp);
+                } else if (followUp.followUp.type === 'form') {
+                    handleFollowUpForm(followUp.followUp);
+                }
+            } else if (followUp.finalFollowUp) {
+                if (followUp.finalFollowUp.type === 'decision') {
+                    handleFollowUpDecision(followUp.finalFollowUp);
+                } else if (followUp.finalFollowUp.type === 'multipleSelect') {
+                    handleFollowUpMultipleSelect(followUp.finalFollowUp);
+                } else if (followUp.finalFollowUp.type === 'sequence') {
+                    handleFollowUpSequence(followUp.finalFollowUp);
+                } else if (followUp.finalFollowUp.type === 'form') {
+                    handleFollowUpForm(followUp.finalFollowUp);
+                }
+            } else {
+                // Move to next scenario
+                currentScenario++;
+                if (currentScenario < scenarios.length) {
+                    loadScenario(scenarios[currentScenario]);
+                } else {
+                    showResults();
+                }
+            }
+        });
+        
+        // Show feedback container
+        feedbackContainer.classList.remove('hidden');
+        
+        // Hide submit button
+        document.querySelector('.follow-up-submit-btn').remove();
+    }
+});
