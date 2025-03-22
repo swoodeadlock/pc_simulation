@@ -339,7 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         // Display continue button
-        const continueBtn = feedbackContainer.querySelector('.continue-btn');
+        let continueBtn = feedbackContainer.querySelector('.continue-btn');
         continueBtn.addEventListener('click', () => {
             // Prevent multiple clicks
             continueBtn.disabled = true;
@@ -746,7 +746,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         // Enable continue button
-        const continueBtn = feedbackContainer.querySelector('.continue-btn');
+        let continueBtn = feedbackContainer.querySelector('.continue-btn');
         continueBtn.addEventListener('click', () => {
             // Move to next scenario
             currentScenario++;
