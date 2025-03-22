@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deaf and Hard of Hearing Patient Care Simulation</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div id="home-screen" class="screen active">
+            <header>
+                <h1>Deaf and Hard of Hearing Patient Care Simulation</h1>
+                <p class="subtitle">An interactive training experience for healthcare professionals</p>
+            </header>
+
+            <section class="introduction">
+                <h2>Welcome to the Training Simulation</h2>
+                <p>This interactive training will guide you through various scenarios involving healthcare interactions with Sandra Wilson, a deaf patient who communicates using American Sign Language (ASL).</p>
+                <p>Through these scenarios, you'll learn best practices for:</p>
+                <ul>
+                    <li>Communicating effectively with deaf patients</li>
+                    <li>Setting up and troubleshooting interpretation services</li>
+                    <li>Adapting medical consultations to ensure accessibility</li>
+                    <li>Managing emergency situations with communication barriers</li>
+                    <li>Creating comprehensive follow-up plans</li>
+                </ul>
+                <p>Your decisions throughout the simulation will affect the patient experience and your overall performance assessment.</p>
+                
+                <div class="start-button-container">
+                    <button id="start-simulation" class="btn btn-primary">Begin Training</button>
+                </div>
+            </section>
+        </div>
+
+        <!-- Scenario containers will be loaded here by JavaScript -->
+        <div id="scenario-container"></div>
+        
+        <!-- Results screen -->
+        <div id="results-screen" class="screen">
+            <h2>Simulation Complete</h2>
+            <div id="final-results"></div>
+            <button id="restart-btn" class="btn btn-primary">Restart Simulation</button>
+        </div>
+    </div>
+
+    <!-- Templates for different scenario types -->
+    <!-- Decision Point Template -->
+    <template id="decision-template">
+        <div class="scenario-screen">
+            <div class="scenario-header">
+                <h2 class="scenario-title"></h2>
+                <div class="progress-indicator">
+                    <span class="current-scenario"></span> / <span class="total-scenarios"></span>
+                </div>
+            </div>
+            
+            <div class="narrator-text"></div>
+            
+            <div class="system-info"></div>
+            
+            <div class="visual-elements"></div>
+            
+            <div class="decision-point">
+                <h3 class="decision-question"></h3>
+                <div class="options-container"></div>
+            </div>
+            
+            <div class="feedback-container hidden">
+                <h3>Feedback</h3>
+                <div class="feedback-content"></div>
+                <button class="continue-btn btn">Continue</button>
+            </div>
+        </div>
+    </template>
+
+    <!-- Multiple Select Template -->
+    <template id="multiple-select-template">
+        <div class="scenario-screen">
+            <div class="scenario-header">
+                <h2 class="scenario-title"></h2>
+                <div class="progress-indicator">
+                    <span class="current-scenario"></span> / <span class="total-scenarios"></span>
+                </div>
+            </div>
+            
+            <div class="narrator-text"></div>
+            
+            <div class="visual-elements"></div>
+            
+            <div class="multiple-select">
+                <h3 class="selection-question"></h3>
+                <p class="selection-instruction"></p>
+                <div class="checkboxes-container"></div>
+                <button class="submit-selection btn">Submit</button>
+            </div>
+            
+            <div class="feedback-container hidden">
+                <h3>Feedback</h3>
+                <div class="feedback-content"></div>
+                <button class="continue-btn btn">Continue</button>
+            </div>
+        </div>
+    </template>
+
+    <!-- Sequence Task Template -->
+    <template id="sequence-template">
+        <div class="scenario-screen">
+            <div class="scenario-header">
+                <h2 class="scenario-title"></h2>
+                <div class="progress-indicator">
+                    <span class="current-scenario"></span> / <span class="total-scenarios"></span>
+                </div>
+            </div>
+            
+            <div class="narrator-text"></div>
+            
+            <div class="sequence-task">
+                <h3 class="sequence-question"></h3>
+                <p class="sequence-instruction">Drag and drop the items in the correct order</p>
+                <div class="sequence-options-container">
+                    <div class="unordered-options"></div>
+                    <div class="ordered-options"></div>
+                </div>
+                <button class="submit-sequence btn">Submit Sequence</button>
+            </div>
+            
+            <div class="feedback-container hidden">
+                <h3>Feedback</h3>
+                <div class="feedback-content"></div>
+                <button class="continue-btn btn">Continue</button>
+            </div>
+        </div>
+    </template>
+
+    <!-- Setup Task Template -->
+    <template id="setup-task-template">
+        <div class="scenario-screen">
+            <div class="scenario-header">
+                <h2 class="scenario-title"></h2>
+                <div class="progress-indicator">
+                    <span class="current-scenario"></span> / <span class="total-scenarios"></span>
+                </div>
+            </div>
+            
+            <div class="narrator-text"></div>
+            
+            <div class="simulation-container">
+                <div class="device-simulation">
+                    <!-- Device interface will be generated here -->
+                </div>
+                
+                <div class="task-instructions"></div>
+                
+                <div class="task-actions">
+                    <!-- Interactive elements will be added here -->
+                </div>
+            </div>
+            
+            <div class="feedback-container hidden">
+                <h3>Feedback</h3>
+                <div class="feedback-content"></div>
+                <button class="continue-btn btn">Continue</button>
+            </div>
+        </div>
+    </template>
+
+    <!-- Form Completion Template -->
+    <template id="form-template">
+        <div class="scenario-screen">
+            <div class="scenario-header">
+                <h2 class="scenario-title"></h2>
+                <div class="progress-indicator">
+                    <span class="current-scenario"></span> / <span class="total-scenarios"></span>
+                </div>
+            </div>
+            
+            <div class="narrator-text"></div>
+            
+            <div class="form-container">
+                <h3 class="form-title"></h3>
+                <form id="interactive-form">
+                    <!-- Form fields will be added here -->
+                </form>
+                <button class="submit-form btn">Submit Form</button>
+            </div>
+            
+            <div class="feedback-container hidden">
+                <h3>Feedback</h3>
+                <div class="feedback-content"></div>
+                <button class="continue-btn btn">Continue</button>
+            </div>
+        </div>
+    </template>
+
+    <script src="js/scenarios.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
