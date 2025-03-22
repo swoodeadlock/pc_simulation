@@ -317,7 +317,6 @@ document.addEventListener('DOMContentLoaded', () => {
             continueBtn.disabled = true;
             
             if (scenario.followUp && (!scenario.followUp.condition || scenario.followUp.condition.includes(selectedOption.id))) {
-                // Handle follow-up based on type
                 if (scenario.followUp.type === 'decision') {
                     handleFollowUpDecision(scenario.followUp);
                 } else if (scenario.followUp.type === 'multipleSelect') {
